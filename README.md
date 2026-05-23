@@ -125,17 +125,10 @@ Type:
 shell:startup
 ```
 
-Create:
+Put the file named:
 
 ```txt
 maimai_watcher.vbs
-```
-
-Paste:
-
-```vb
-Set WshShell = CreateObject("WScript.Shell")
-WshShell.Run "pythonw C:\Users\YourName\maimai_watcher.py", 0, False
 ```
 
 Save it.
