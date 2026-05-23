@@ -119,11 +119,11 @@ Now the watcher starts automatically every time Windows boots.
 
 # Bookmarklet Setup
 
-1. Create a new bookmark
-2. Paste the contents of:
+1. Create a new bookmark and name it whatever you want
+2. Paste this in the URL:
 
 ```txt
-bookmarklet.min.js
+javascript:(function(){const KEY='maimai_seen_v1';const seen=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'));const links=[...document.querySelectorAll('a[href*="/img/photo/user/"]')];const fresh=links.filter(l=>!seen.has(l.href));if(!fresh.length){alert('maimai \u{1F4F8} All photos already saved! Nothing new.');return;}fresh.forEach((l,i)=>{setTimeout(()=>{const card=l.closest('[class*="score_back"]');const date=(card?.querySelector('.block_info')?.textContent||'').trim().replace(/\//g,'-').replace(/\s+/g,'_');const song=(card?.querySelector('.black_block')?.textContent||'photo').trim().replace(/[\\/:*?"<>|]/g,'').replace(/\s+/g,'_').substring(0,35);const diff=(card?.querySelector('[src*="diff_"]')?.src||'').match(/diff_(\w+)\./)?.[1]||'';const a=document.createElement('a');a.href=l.href;a.download='maimai_'+String(i+1).padStart(2,'0')+'_'+date+'_'+diff.toUpperCase()+'_'+song+'.jpg';document.body.appendChild(a);a.click();document.body.removeChild(a);seen.add(l.href);if(i===fresh.length-1){localStorage.setItem(KEY,JSON.stringify([...seen]));alert('maimai \u{1F4F8} Downloaded '+fresh.length+' new photo'+(fresh.length>1?'s':'')+'!');}},i*800);});})();
 ```
 
 into the bookmark URL
