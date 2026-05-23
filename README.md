@@ -11,6 +11,25 @@ Windows only.
 
 ---
 
+# Requirements
+
+- Windows
+- Python 3.10 or newer
+- Chrome / Edge / Firefox
+
+Download Python here:
+
+https://www.python.org/downloads/
+
+IMPORTANT:
+During installation, enable:
+
+```txt
+Add Python to PATH
+```
+
+---
+
 # What This Does
 
 After setup:
@@ -82,6 +101,14 @@ You should see:
 
 The watcher now monitors your Downloads folder automatically.
 
+If nothing appears, try running:
+
+```bash
+python C:\Users\YourName\maimai_watcher.py
+```
+
+to check for errors.
+
 ---
 
 # Optional — Start Automatically With Windows
@@ -123,10 +150,11 @@ Now the watcher starts automatically every time Windows boots.
 2. Paste this in the URL:
 
 ```txt
-javascript:(function(){const KEY='maimai_seen_v1';const seen=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'));const links=[...document.querySelectorAll('a[href*="/img/photo/user/"]')];const fresh=links.filter(l=>!seen.has(l.href));if(!fresh.length){alert('maimai \u{1F4F8} All photos already saved! Nothing new.');return;}fresh.forEach((l,i)=>{setTimeout(()=>{const card=l.closest('[class*="score_back"]');const date=(card?.querySelector('.block_info')?.textContent||'').trim().replace(/\//g,'-').replace(/\s+/g,'_');const song=(card?.querySelector('.black_block')?.textContent||'photo').trim().replace(/[\\/:*?"<>|]/g,'').replace(/\s+/g,'_').substring(0,35);const diff=(card?.querySelector('[src*="diff_"]')?.src||'').match(/diff_(\w+)\./)?.[1]||'';const a=document.createElement('a');a.href=l.href;a.download='maimai_'+String(i+1).padStart(2,'0')+'_'+date+'_'+diff.toUpperCase()+'_'+song+'.jpg';document.body.appendChild(a);a.click();document.body.removeChild(a);seen.add(l.href);if(i===fresh.length-1){localStorage.setItem(KEY,JSON.stringify([...seen]));alert('maimai \u{1F4F8} Downloaded '+fresh.length+' new photo'+(fresh.length>1?'s':'')+'!');}},i*800);});})();
+javascript:(function(){const KEY='maimai_seen_v1';const seen=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'));const links=[...document.querySelectorAll('a[href*="/img/photo/user/"]')];const fresh=links.filter(l=>!seen.has(l.href));if(!fresh.length){alert('maimai \u{1F4F8} All photos already saved! Nothing new.');return;}fresh.forEach((l,i)=>{setTimeout(()=>{const card=l.closest('[class*="score_back"]');const date=(card?.querySelector('.block_info')?.textContent||'').trim().replace(/\//g,'-').replace(/\s+/g,'_');const song=(card?.querySelector('.black_block')?.textContent||'photo').trim().replace(/[\\/:*?"<>|]/g,'').replace(/\s+/g,'_').substring(0,35);const diff=(card?.querySelector('[src*="diff_"]')?.src||'').match(/diff_(\w+)\./)?.[1]||'';const a=document.createElement('a');a.href=l.href;a.download='maimai_'+date+'_'+diff.toUpperCase()+'_'+song+'.jpg';document.body.appendChild(a);a.click();document.body.removeChild(a);seen.add(l.href);if(i===fresh.length-1){localStorage.setItem(KEY,JSON.stringify([...seen]));alert('maimai \u{1F4F8} Downloaded '+fresh.length+' new photo'+(fresh.length>1?'s':'')+'!');}},i*800);});})();
 ```
 
-into the bookmark URL
+into the bookmark URL.
+
 3. Make sure it starts with:
 
 ```txt
@@ -152,6 +180,17 @@ It will:
 maimai_2026-05-23_19-00_MASTER_SongName.jpg
 ```
 
+Browser may ask for:
+- permission for multiple downloads
+- automatic download access
+
+Press:
+```txt
+Allow
+```
+
+otherwise bulk download may fail.
+
 ---
 
 # Reset Download History
@@ -162,6 +201,17 @@ If needed, run this in browser console:
 localStorage.removeItem('maimai_seen_v1')
 ```
 
+Open browser console with:
+
+```txt
+F12
+```
+
+then go to:
+```txt
+Console
+```
+
 ---
 
 # Notes
@@ -170,6 +220,31 @@ localStorage.removeItem('maimai_seen_v1')
 - No data is uploaded anywhere
 - Uses browser localStorage only
 - Only moves files starting with:
+
+```txt
+maimai_
+```
+
+---
+
+# Troubleshooting
+
+## Bookmarklet does nothing
+
+Check:
+- You are on the correct album page
+- The bookmark starts with `javascript:`
+- Browser automatic downloads are allowed
+
+---
+
+## Watcher is not moving files
+
+Check:
+- Python is installed correctly
+- Dependencies were installed
+- The watcher is running
+- File names start with:
 
 ```txt
 maimai_
