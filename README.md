@@ -2,48 +2,33 @@
 
 Automatically download and organize your maimai DX NET photos.
 
-This project includes:
+This setup includes:
 
-- A bookmarklet for bulk downloading photos
-- A Python watcher that automatically moves photos into your MaiMai folder
+- A bookmarklet that downloads new photos
+- A Python watcher that automatically moves them into a separate MaiMai folder
 
 Windows only.
 
 ---
 
-# Features
+# What This Does
 
-## Bookmarklet
-- Downloads new photos automatically
-- Skips already downloaded photos
-- Clean automatic filenames
+After setup:
 
-Example:
+1. Open your maimai album page
+2. Press the bookmarklet
+3. Photos download automatically
+4. The watcher instantly moves them into:
 
 ```txt
-maimai_2026-05-23_19-00_MASTER_SongName.jpg
+C:\Users\YourName\Pictures\MaiMai
 ```
 
-## Python Watcher
-- Watches your Downloads folder
-- Detects maimai photos automatically
-- Moves them into your chosen folder
-- Windows notifications
-- Tray icon support
+No manual sorting needed.
 
 ---
 
-# Requirements
-
-- Windows
-- Python 3.10+
-- Chrome / Edge / Firefox
-
----
-
-# Setup
-
-## 1. Install dependencies
+# Step 1 — Install Python Dependencies
 
 Open Command Prompt and run:
 
@@ -53,9 +38,9 @@ pip install watchdog win10toast pystray pillow
 
 ---
 
-## 2. Save the script
+# Step 2 — Save the Python Script
 
-Place:
+Save:
 
 ```txt
 maimai_watcher.py
@@ -71,33 +56,35 @@ C:\Users\YourName\maimai_watcher.py
 
 ---
 
-## 3. Set your save folder
+# Step 3 — Set Your MaiMai Folder
 
-Inside the script:
+Inside the script, edit:
 
 ```python
 MAIMAI_FOLDER = Path(r"C:\Users\YourName\Pictures\MaiMai")
 ```
 
-Change it to wherever you want your photos stored.
+Change it if you want another folder.
 
 ---
 
-## 4. Run the watcher
+# Step 4 — Run the Watcher
+
+Run:
 
 ```bash
-python maimai_watcher.py
+pythonw C:\Users\YourName\maimai_watcher.py
 ```
 
-Leave it running in the background.
+You should see:
+- a tray icon
+- notifications when photos are moved
+
+The watcher now monitors your Downloads folder automatically.
 
 ---
 
-# Auto Start on Boot (Optional)
-
-To make the watcher start automatically when Windows boots:
-
-## 1. Open Startup Folder
+# Optional — Start Automatically With Windows
 
 Press:
 
@@ -111,56 +98,36 @@ Type:
 shell:startup
 ```
 
-Then press Enter.
-
----
-
-## 2. Create a VBS file
-
-Create a file called:
+Create:
 
 ```txt
 maimai_watcher.vbs
 ```
 
-Paste this inside:
+Paste:
 
 ```vb
 Set WshShell = CreateObject("WScript.Shell")
 WshShell.Run "pythonw C:\Users\YourName\maimai_watcher.py", 0, False
 ```
 
-Replace the path with your actual script location.
+Save it.
 
-Save the file.
-
-Done.
-
-Now the watcher will start silently every time Windows boots.
+Now the watcher starts automatically every time Windows boots.
 
 ---
 
 # Bookmarklet Setup
 
-## 1. Create a bookmark
-
-- Right click bookmarks bar
-- Press "Add page"
-
-Name:
-
-```txt
-maimai Downloader
-```
-
-URL:
-Paste the contents of:
+1. Create a new bookmark
+2. Paste the contents of:
 
 ```txt
 bookmarklet.min.js
 ```
 
-Make sure it starts with:
+into the bookmark URL
+3. Make sure it starts with:
 
 ```txt
 javascript:
@@ -168,21 +135,28 @@ javascript:
 
 ---
 
-## 2. Open the album page
+# Album Page
+
+Open:
 
 https://maimaidx-eng.com/maimai-mobile/playerData/photo/
 
----
+Then press the bookmarklet.
 
-## 3. Press the bookmark
+It will:
+- download only new photos
+- skip already-downloaded ones
+- automatically name files like:
 
-The bookmarklet will download all new photos automatically.
+```txt
+maimai_2026-05-23_19-00_MASTER_SongName.jpg
+```
 
 ---
 
 # Reset Download History
 
-Open browser console and run:
+If needed, run this in browser console:
 
 ```js
 localStorage.removeItem('maimai_seen_v1')
@@ -190,22 +164,12 @@ localStorage.removeItem('maimai_seen_v1')
 
 ---
 
-# Workflow
-
-1. Start the watcher
-2. Open maimai DX NET album
-3. Press the bookmarklet
-4. Photos download automatically
-5. Watcher moves them into your MaiMai folder
-
----
-
 # Notes
 
-- Runs locally in your browser
+- Runs locally only
 - No data is uploaded anywhere
 - Uses browser localStorage only
-- Only affects files starting with:
+- Only moves files starting with:
 
 ```txt
 maimai_
